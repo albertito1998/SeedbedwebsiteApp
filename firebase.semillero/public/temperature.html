@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- font awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase-database.js"></script>
+    <title>SEMILLERO</title>
+  </head>
+  <style>
+.container .row {
+  margin-top: 1.2em;
+}
+  @media screen and (max-width: 670px){
+          header{
+              min-height:500px;
+          }
+      }
+      .dropdown-content{
+   width: max-content !important;
+   height:auto !important;
+}
+div {
+  text-align: justify;
+  text-justify: inter-word;
+}
+</style>
+
+<body class="white">
+
+  <!-- NAVBAR -->
+  <nav class="z-depth-0 grey lighten-4">
+    <div class="nav-wrapper container">
+      <a href="#" class="brand-logo">
+        <img src="img/brandlogo.jpeg" class="responsive-img materialboxed" style="width: 60px; margin-top: 10px; height: 40px;">
+      </a>
+      <a href=""class="sidenav-trigger " data-target="mobile-menu">
+        <i class="material-icons cyan-text text-darken-4 prefix">menu</i>
+    </a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+          <li class="logged-in">
+            <a href="index.html" class="grey-text" id="logout">Main page</a>
+          </li>
+          <li class="logged-in">
+                                                
+            <a class="dropdown-trigger grey-text z-depth-0 grey lighten-4" href="#!" data-target="dropdown">Historical data<i class="material-icons right">arrow_drop_down</i></a>       
+            <!-- Historical Data -->
+            <ul id="dropdown" class="dropdown-content">
+            
+              <li><a href="humidity.html" class="grey-text z-depth-0 grey lighten-4"><i class="material-icons right">opacity</i>Humidity</a></li>
+              <li><a href="humidityground.html" class="grey-text z-depth-0 grey lighten-4"><i class="material-icons right">invert_colors</i>Humidity Ground</a></li>
+              <li><a href="Co2.html" class="grey-text z-depth-0 grey lighten-4"><i class="material-icons right">eco</i>Co2</a></li>
+              <li><a href="LDR.html" class="grey-text z-depth-0 grey lighten-4"><i class="material-icons right">wb_sunny</i>LDR</a></li>
+            </ul> 
+          </li>
+        </span>
+      </ul>
+    
+    <ul class="sidenav grey lighten-3" id="mobile-menu">
+      <li class="logged-in">
+        <a href="index.html" class="grey-text" id="logout">Main page</a>
+      </li>
+      <li class="logged-in">
+        <li><a class="dropdown-trigger grey-text z-depth-0 grey lighten-3" href="#!" data-target="dropdown1">Historical data<i class="material-icons right">arrow_drop_down</i></a></li>
+        <ul id='dropdown1' class='dropdown-content'>
+          <li><a href="humidity.html" class="grey-text z-depth-0 grey lighten-4"><i class="material-icons right">opacity</i>Humidity</a></li>
+          <li><a href="humidityground.html" class="grey-text z-depth-0 grey lighten-4"><i class="material-icons right">invert_colors</i>Humidity Ground</a></li>
+          <li><a href="Co2.html" class="grey-text z-depth-0 grey lighten-4"><i class="material-icons right">eco</i>Co2</a></li>
+          <li><a href="LDR.html" class="grey-text z-depth-0 grey lighten-4"><i class="material-icons right">wb_sunny</i>LDR</a></li>
+        </ul> 
+      </li>
+  </ul>
+</div>
+  </nav>
+
+
+
+   <!-- charts / grid -->
+   <div class="logged-in">
+   <section class="container" id="displays">
+    <div class="row">
+        <div class="col s12 l12 ">
+          <div class="valign">
+            <h2 class=" z-depth-2 blue lighten-4 white-text center-align">Temperature ºC</h2>
+          </div>
+            
+            <div>
+              <canvas id="temperature-chart" width="100%" height="400px">
+            </div>
+        </div>  
+        </div>
+        
+    <div class="row">
+      <table class="striped highlight centered responsive-table">
+        <thead>
+          <tr>
+              <th>Temperature max </th>
+              <th>Day max temp </th>
+              <th>Temperature Average</th>             
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td id="temperature-max">--</td>
+            <td id="day-max-temp">--</td>
+            <td id="temperature-display">--</td>
+          </tr>
+          <tr>
+        </tbody>
+      </table>
+
+    </div>
+        
+        <div class="row">
+          <div class="col s12 l6">
+            <div class="card-panel grey darken-4 z-depth-2 ">
+              <span class="white-text"><h2 class=" white-text center-align valign-text">Select your range</h1>
+              </span>
+            </div>
+            <form id="time">
+            <label for="startdate">Choose the start point</label>
+            <input id="startdate" type="text" placeholder="Select start date"  class="datepicker1">
+            <!--<input id="starttime" type="text" placeholder="Select start time" class="timepicker1"> -->
+          
+            <label for="endday">Choose the end point </label>
+            <input id="enddate" type="text" placeholder="end date"  class="datepicker2">
+            <!--<input id="endtime"type="text" placeholder="end time" class="timepicker2"> -->
+            <div class="input-field">
+            <button type="submit"    class ="btn waves-effect waves-light"> <i class="material-icons right">send</i> Submit</button>
+          </div>
+        </form>
+        </div>
+        <div class="col s12 l6">
+          <form id="selector">
+            <select name="select" id="select" class="select">
+              <option value="" disabled selected>Select your crop</option>
+              <option value="1">Pepper</option>
+              <option value="2">Tomato</option>
+              <option value="3">Augergine</option>
+              <option value="4">Cucumber</option>
+            </select>
+            <label>Menu Select</label>
+         
+          <div>
+          <button name="saveBut" type="submit" id="saveBut" class="btn  "><i class="material-icons right">send</i>Submit</button>
+          </div>
+        </form>
+
+        <table class="striped highlight centered responsive-table">
+          
+            <h2 id="crop" class="center-align">--</h2>
+            <thead>
+            <tr>
+                <th>Temp max ºC</th>
+                <th>Temp min ºC</th>
+                <th>Humidity min %</th>  
+                <th>Humidity max %</th> 
+                <th><i class="material-icons prefix">trending_up</i>Co2 ppm</th> 
+                                
+            </tr>
+          </thead>
+  
+          <tbody>
+            <tr>
+              <td id="temp-max-crop">--</td>
+              <td id="temp-min-crop">--</td>
+              <td id="humiditymin-crop">--</td>
+              <td id="humiditymax-crop">--</td>
+              <td id="Co2-crop">--</td>
+            </tr>
+          
+          </tbody>
+        </table>
+
+      </div>
+      </div>
+
+    </section>
+    </div>
+
+   
+ <!-- footer -->
+ <footer class="page-footer grey darken-3">
+  <div class="container">
+      <div class="row">
+          <div class="col s12 l6">
+              <h5>About me</h5>
+              <p>Industrial engineering student at Carlos III University. Passion for technology, especially electronics, programming and the world of IoT!</p>
+              <ul><a href="#" class="grey-text text-lighten-3 tooltipped btn-floating btn-small teal lighten-4">
+                <i class="material-icons prefix">location_on</i></a> Madrid, Spain</ul>
+          </div>
+          <div class="col s12 l4 offset-l12">
+              <h5>Connect</h5>
+              <ul><a href="https://www.facebook.com/alber.gomez.984" class="grey-text text-lighten-3 tooltipped btn-floating btn-small teal lighten-4" data-tooltip="Sigueme en mi Facebook!">
+                <i class="fab fa-facebook"></i></a> Facebook</ul>
+              <ul><a href="https://twitter.com/albertitogz_98" class="grey-text text-lighten-3 tooltipped btn-floating btn-small teal lighten-4" data-tooltip="Sigueme en mi Twitter!">
+                <i class="fab fa-twitter"></i></a> Twitter</ul>
+              <ul><a href="https://www.linkedin.com/in/alberto-gomez-zueco-995538179/" class="grey-text text-lighten-3 tooltipped btn-floating btn-small teal lighten-4" data-tooltip="Sigueme en mi Linkedin!">
+                <i class="fab fa-linkedin"></i></a> Linkedin</ul>
+              <ul><a href="https://www.instagram.com/alber_gz/?hl=es" class="grey-text text-lighten-3 tooltipped btn-floating btn-small teal lighten-4" data-tooltip="Sigueme en mi Instagram!">
+                <i class="fab fa-instagram"></i></a> Instagram</ul>
+              
+          </div>
+      </div>
+  </div>
+  <div class="footer-copyright grey darken-4">
+      <div class="container center-align" >&copy; 2020 Alberto Gómez</div>
+  </div>
+</footer>
+
+
+
+  
+  
+
+
+  <script>
+    const firebaseConfig = {
+  apiKey: "AIzaSyBozdvYwvdTmxjRTcBaqqUeYyoac0I9_ho",
+  authDomain: "semillero-35a36.firebaseapp.com",
+  databaseURL: "https://semillero-35a36.firebaseio.com", 
+  projectId: "semillero-35a36",
+  storageBucket: "semillero-35a36.appspot.com",
+  messagingSenderId: "498001366892",
+  appId: "1:498001366892:web:f3a2de21593e795a03ad49",
+  measurementId: "G-QQT4LNH8E3"
+};
+firebase.initializeApp(firebaseConfig);
+
+//update firestore settings
+const databasesensor = firebase.firestore();
+const auth=firebase.auth();
+var storage = firebase.storage();
+
+
+</script>
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js"></script>
+  <script src="scripts/historical/script.js"></script>
+  <script src="scripts/historical/databaseoperationstemp.js"></script>
+  
+  
+ 
+ 
+
+  <script>
+    $(document).ready(function(){
+$('.sidenav').sidenav();
+$('.materialboxed').materialbox(); // HAce que aumenta la foto
+$('.parallax').parallax();
+$('.tabs').tabs();
+$('.dropdown-trigger').dropdown({
+      inDuration: 500,
+      outDuration:1000,
+      hover:true,
+      gutter:20,
+      belowOrigin:true,
+      aligment:'center',
+      stopPropagation: false
+      }
+);
+ $('.select').formSelect();
+$('.tooltipped').tooltip();
+$('.scrollspy').scrollSpy();
+$('.modal').modal();
+$('.datepicker1').datepicker({
+        autoClose:true,
+        format: 'mmm dd, yyyy', 
+        minDate: new Date(2020,3,25),
+        yearRange: [1],
+        onSelect: function (dato) {
+        ($startdate)= Date.parse(dato)
+        console.log($startdate)
+        }
+    });
+
+/*$('.timepicker1').timepicker({
+      autoClose: true,
+      twelveHour : false,
+      onSelect: function(dato){
+        ($starttime) = ( (dato))
+        console.log($starttime)
+    }
+});*/
+$('.datepicker2').datepicker({
+        autoClose:true,
+        format: 'mmm dd, yyyy', 
+        minDate: new Date(2020,3,25),
+        yearRange: [1],
+        onSelect: function (dato) {
+        ($enddate)= Date.parse(dato)
+        console.log($enddate)
+        }
+    });
+
+/*$('.timepicker2').timepicker({
+      autoClose: true,
+      twelveHour : false,
+      onSelect: function(dato){
+        ($endtime) = getTime(dato)
+        console.log($enddate)
+    }
+}); */
+});
+  </script>
+</body>
+</html>

@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- font awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-functions.js"></script>
+    <title>SEEDBED</title>
+  </head>
+  <style>
+.container .row {
+  margin-top: 1.2em;
+}
+  @media screen and (max-width: 670px){
+          header{
+              min-height:500px;
+          }
+      }
+      .dropdown-content{
+   width: max-content !important;
+   height:auto !important;
+}
+div {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+
+</style>
+
+<body class="white" >
+
+  <!-- NAVBAR -->
+  <nav class="z-depth-0 grey lighten-4">
+    <div class="nav-wrapper container">
+      <a href="#" class="brand-logo">
+        <img src="img/brandlogo.jpeg" class="responsive-img materialboxed" style="width: 60px; margin-top: 10px; height: 40px;">
+      </a>
+      <a href=""class="sidenav-trigger " data-target="mobile-menu">
+        <i class="material-icons cyan-text text-darken-4 prefix">menu</i>
+    </a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li class="logged-in">
+            <a href="#" class="grey-text modal-trigger" data-target="modal-account">Account</a>
+          </li>
+          <li class="logged-in">
+            <a href="#" class="grey-text" id="logout">Logout</a>
+          </li>
+
+          <li class="logged-in">
+                                     
+                         
+            <a class="dropdown-trigger grey-text z-depth-0 grey lighten-4" href="#!" data-target="dropdown">Historical data<i class="material-icons right">arrow_drop_down</i></a>       
+            <!-- Historical Data -->
+            <ul id="dropdown" class="dropdown-content">
+              <li><a href="temperature.html" class="grey-text z-depth-0 grey lighten-4"><i class="material-icons right">ac_unit</i>Temperature</a></li>
+              <li><a href="humidity.html" class="grey-text z-depth-0 grey lighten-4"><i class="material-icons right">opacity</i>Humidity</a></li>
+              <li><a href="humidityground.html" class="grey-text z-depth-0 grey lighten-4"><i class="material-icons right">invert_colors</i> Ground</a></li>
+              <li><a href="Co2.html" class="grey-text z-depth-0 grey lighten-4"><i class="material-icons right">eco</i>Co2</a></li>
+              <li><a href="LDR.html" class="grey-text z-depth-0 grey lighten-4"><i class="material-icons right">wb_sunny</i>LDR</a></li>
+            </ul> 
+          </li>
+          <li class="logged-out">
+            <a href="#" class="grey-text modal-trigger" data-target="modal-login">Login</a>
+          </li>
+          <li class="logged-out">
+            <a href="#" class="grey-text modal-trigger" data-target="modal-signup">Sign up</a>
+          </li>
+        </span>
+      </ul>
+    
+    <ul class="sidenav grey lighten-3" id="mobile-menu">
+      <li class="logged-in">
+        <a href="#" class="grey-text modal-trigger" data-target="modal-account">Account</a>
+      </li>
+      <li class="logged-in">
+        <a href="#" class="grey-text" id="logout">Logout</a>
+      </li>
+      <li class="logged-in">
+        <li><a class="dropdown-trigger grey-text z-depth-0 grey lighten-3" href="#!" data-target="dropdown1">Historical data<i class="material-icons right">arrow_drop_down</i></a></li>
+        <ul id='dropdown1' class='dropdown-content'>
+          <li><a href="temperature.html" class="grey-text z-depth-0 grey lighten-4"><i class="material-icons right">ac_unit</i>Temperature</a></li>
+          <li><a href="humidity.html" class="grey-text z-depth-0 grey lighten-4"><i class="material-icons right">opacity</i>Humidity</a></li>
+          <li><a href="humidityground.html" class="grey-text z-depth-0 grey lighten-4"><i class="material-icons right">invert_colors</i> Ground</a></li>
+          <li><a href="Co2.html" class="grey-text z-depth-0 grey lighten-4"><i class="material-icons right">eco</i>Co2</a></li>
+          <li><a href="LDR.html" class="grey-text z-depth-0 grey lighten-4"><i class="material-icons right">wb_sunny</i>LDR</a></li>
+        </ul> 
+      </li>
+      <li class="logged-out">
+        <a href="#" class="grey-text modal-trigger" data-target="modal-login">Login</a>
+      </li>
+      <li class="logged-out">
+        <a href="#" class="grey-text modal-trigger" data-target="modal-signup">Sign up</a>
+      </li>
+  </ul>
+</div>
+  </nav>
+
+  <!-- SIGN UP MODAL -->
+  <div id="modal-signup" class="modal">
+    <div class="modal-content">
+      <h4>Sign up</h4><br />
+      <form id="signup-form">
+        <div class="input-field">
+          <i class="material-icons prefix">account_circle</i>
+          <input type="text" id="signup-name" name="name1">
+          <label for="name1">Your Name</label>
+      </div>
+        <div class="input-field">
+          <input type="email" id="signup-email" required />
+          <label for="signup-email">Email address</label>
+        </div>
+        <div class="input-field">
+          <input type="password" id="signup-password" required />
+          <label for="signup-password">Choose password</label>
+        </div>
+        <button class="btn yellow darken-2 z-depth-0">Sign up</button>
+        <p class="error pink-text center-align"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- LOGIN MODAL -->
+  <div id="modal-login" class="modal">
+    <div class="modal-content">
+      <h4>Login</h4><br />
+      <form id="login-form">
+        <div class="input-field">
+          <input type="email" id="login-email" required />
+          <label for="login-email">Email address</label>
+        </div>
+        <div class="input-field">
+          <input type="password" id="login-password" required />
+          <label for="login-password">Your password</label>
+        </div>
+        <button class="btn yellow darken-2 z-depth-0">Login</button>
+      <p class="error pink-text center-align"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ACCOUNT MODAL -->
+  <div id="modal-account" class="modal">
+    <div class="modal-content center-align">
+      <h4>Account details</h4><br />
+      <div class="center-align account-details"></div>
+    </div>
+  </div>
+
+  <!-- MAKE ADMIN -->
+<form class="center-align admin-actions admin" style="margin:40px auto;max-width:300px; display:none; ">
+<input type="email" placeholder="User email" id="admin-email" required/>
+<button class="btn-small yellow darken-2 z-depth-0">Make admin</button>
+</form>
+ <!-- CARD -->
+  <div class="logged-out">
+    <section class="container section">
+  <div class="row">
+    <div class="col s12 l12">
+      <div class="card">
+        <div class="card-image">
+          <div class="slider">
+            <ul class="slides">
+              <li>
+                <img src="img/brandlogo1.png"> 
+              </li>
+              <li>
+                <img src="img/brandlogo2.png"> 
+              </li>
+              <li>
+                <img src="img/brandlogo3.png"> 
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="card-content ">
+          <p> This project includes the entire process followed for the design and construction of a prototype seedbed with environmental control for the cultivation of horticultural species during its early stages of development.</p>
+          <p >The creation of the prototype, the different necessary electronic components, the communication infrastructure between the different devices, the necessary programming code, and the creation of a user interface to view the collected data will be discussed.</p>
+          <p >The project has been carried out in a self-taught way thanks to the material provided by the Library of the Carlos III University of Madrid and consultations made with professors and acquaintances who carry out their professional work in the agriculture sector, under the supervision of my tutor from the TFG.</p>
+        </div>
+        <div class="card-tabs">
+          <ul class="tabs tabs-fixed-width">
+            <li class="tab"><a href="#test4">PROGRAMMING</a></li>
+            <li class="tab"><a class="active" href="#test5">HARDWARE</a></li>
+            <li class="tab"><a href="#test6">SENSORS</a></li>
+          </ul>
+        </div>
+        <div class="card-content grey lighten-4">
+          <div id="test4">
+           </p>C++</p>
+            <p>Javascript</p>
+            <p>Node js - Express</p>
+            <p>Materialize HTML5</p>
+            <p>Firebase</p>
+          </div>
+          <div id="test5">
+          </p>Raspberry Pi 4B</p>
+          <p>Arduino</p></div>
+          <div id="test6">
+            <p>MQ-135</p>
+            <p>LDR</p>
+            <p>DHT22</p>
+            <p>Capacity moisture sensor v2.0</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- parallax -->
+<div class="logged-out">
+  <div class="video-container parallax-container col s12 l12">
+    <video autoplay muted loop class="responsive-video centered">
+        <source src="img/grow your ideas.mp4" type="video/mp4">
+    </video>
+</div>
+</div>
+</div>         
+
+  <!-- photo / grid -->
+  <div class="logged-out">
+  <section class="container section">
+    <div class="row">
+        <div class="col s12 l4 ">
+            <img src="img/realtime.PNG" alt="" class="responsive-img materialboxed">
+        </div>
+        <div class="sol s12 l6 offset-l1">
+            <h2 class="indigo-text-darken-4" >Real Data Display</h2>
+            <p>Thanks to the Firebase ICloud platform, data can be displayed in dynamic charts using its Realtime Database utility.</p>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col s12 l4 offset-l1 push-l7">
+          <img src="img/movil.png" alt="" class="responsive-img materialboxed">
+      </div>
+      <div class="col s12 l6 offset-l1 pull-l5 right-align">
+          <h2 class="indigo-text-darken-4">Whatsapp Notification</h2>
+          <p>Alert when irrigation is activated by sending a notification of a text message thanks to the Twilio platform.</p>
+      </div>
+  </div>
+  <div class="row">
+      <div class="col s12 l4 ">
+          <img src="img/scalable.JPG" alt="" class="responsive-img materialboxed">
+      </div>
+      <div class="sol s12 l6">
+          <h2 class="indigo-text-darken-4 offset-l1">Scalable</h2>
+          <p>Thanks to the Open Source environment and platforms of Arduino and Raspberry Pi you can implement any imaginable functionality</p>
+      </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+ 
+
+  <!-- services / tabs -->
+  
+  <section class="container section scrollspy"id="services">
+    <div class="row">
+        <div class="col s12 l4">
+            <h2 class="indigo-text-darken-4">What I do...</h2>
+            <p>DiY projects!!</p>
+  
+        </div>
+  <div class="col s8 l6 offset-l2">
+      <ul class="tabs">
+          <li class="tab col s6">
+              <a href="#" class="indigo-text text-darken-4">Github</a>
+          </li>
+      </ul>
+      <div class="col s6" id="Github">
+          <a href="https://github.com/albertito1998/semillero" class="flow-text indigo-text text-darken-4 waves-effect waves-light"><i class="material-icons right ">cloud</i>GITHUB</a>
+          <p>Stay on top of my projects and find all the documentation in my Github repository</p>
+  
+      </div>    
+  </div>
+    </div>
+  
+  </section>
+
+  <!-- parallax -->
+
+  <div class="parallax-container">
+    <div class="parallax">
+        <img src="img/fondowebsite.jpg" alt="" class="responsive-img">
+    </div>
+</div>
+
+ <!-- contact form -->
+ <section class="section container">
+  <div class="row">
+      <div class="col s12 l5">
+          <h2 class="indigo-text-darken-4">Contact me</h2>
+          <p>For more information I will be happy to answer through my personal email.</p>
+
+      </div>
+      <div class="col s12 l5 offset-l2">
+        
+          <form action="" id="contactForm">
+            <div class="input-field">
+              <i class="material-icons prefix">account_circle</i>
+              <input type="text" id="name" name="name">
+              <label for="name">Your Name</label>
+          </div>
+              <div class="input-field">
+                  <i class="material-icons prefix">email</i>
+                  <input type="email" id="email" name="email">
+                  <label for="email">Your Email</label>
+                  <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
+              </div>
+          <div class="input-field">
+          <div class="material-icons prefix">message</div>
+         <textarea name="message" id="message" class="materialize-textarea" cols="30" rows="10" ></textarea>
+         <label for="message">Your message</label>
+
+          </div>
+          <div class="input-field">
+              <button type="submit" onclick="M.toast({html: 'Sent Message!'})"   class ="btn waves-effect waves-light"> <i class="material-icons right">send</i> Submit</button>
+          </div>
+          
+          </form>
+      </div>
+  </div>
+</section>
+</div>
+ 
+
+   <!-- charts / grid -->
+   <div class="logged-in">
+   <section class="container" id="displays"></section>
+    <div class="row">
+        <div class="col s12 l6 ">
+          <div class="z-depth-2 blue lighten-4">
+            <p class="blue lighten-4 white-text center-align">Temperature</p>
+            <p class="value blue lighten-4  white-text center-align" id="temperature-display">Loading...</p>
+            <p class="blue lighten-4 white-text center-align">%</p>
+          </div>
+            <div>
+              <canvas id="temperature-chart" width="100%" height="400px">
+            </div>
+        </div>
+        <div class="col s12 l6">
+          <div class="z-depth-2 blue lighten-4">
+            <p class="blue lighten-4 white-text center-align">humidity</p>
+            <p class="value blue lighten-4  white-text center-align" id="humidity-display">Loading...</p>
+            <p class="blue lighten-4 white-text center-align">%</p>
+          </div>
+          <div>
+            <canvas id="humidity-chart" width="100%" height="400px">
+          </div>
+        </div>
+    </div>
+
+    <div class="row">
+      <div class="col s12 l6 ">
+        <div class="z-depth-2 blue lighten-4">
+          <p class="blue lighten-4 white-text center-align">humidity ground</p>
+          <p class="value blue lighten-4  white-text center-align" id="humidityground-display">Loading...</p>
+          <p class="blue lighten-4 white-text center-align">%</p>
+        </div>
+          <div>
+            <canvas id="humidityground-chart" width="100%" height="400px">
+          </div>
+      </div>
+      <div class="col s12 l6 ">
+        <div class="z-depth-2 blue lighten-4">
+          <p class="blue lighten-4 white-text center-align">CO2</p>
+          <p class="value blue lighten-4  white-text center-align" id="CO2-display">Loading...</p>
+          <p class="blue lighten-4 white-text center-align">ppm</p>
+        </div>
+        <div>
+          <canvas id="CO2-chart" width="100%" height="400px">
+        </div>
+      </div>
+  </div>
+
+  <div class="row">
+    <div class="col s12 l6 ">
+      <div class="z-depth-2 blue lighten-4">
+        <p class="blue lighten-4 white-text center-align">LDR</p>
+        <p class="value blue lighten-4  white-text center-align" id="LDR-display">Loading...</p>
+        <p class="blue lighten-4 white-text center-align">lux</p>
+      </div>
+        <div>
+          <canvas id="LDR-chart" width="100%" height="400px">
+        </div>
+    </div>
+    <div class="col s12 l6 ">
+      <div class="z-depth-2 blue lighten-4 ">
+        <h2 class=" white-text box valign-wrapper-text center-align">photo in real time</h2>
+        <p class="value blue lighten-4  white-text center-align" id="upload-time"></p>
+      </div>
+      <div>
+  
+  <img src="semillero" id="semillero" data-caption="Photo of the seedbed"  class="responsive-img materialboxed">
+      </div>
+    </div>
+</div>  
+</section>
+</div>
+<div class="logged-in">
+<section class="actuators" id="actuators"style="font-family:Times">
+  <div class="row ">
+    <div class="z-depth-2 grey darken-3">
+      <h2 class=" white-text box valign-wrapper-text center-align">Panel Control</h2>
+    </div>
+      <div class="col s12 l6 " id="actuators">
+        <div>
+        <h2 class="white-text z-depth-3 grey darken-3 center-align rounded">Actuators</h2>
+      </div>
+        <table class=" centered highlight striped" >
+          <thead>
+            <tr class="indigo-text-darken-4 center-align">
+                <th><h3>Actuators</h3></th>
+                <th><h3>Status</h3></th>
+                <th><h3>--</h3></th>
+            </tr>
+          </thead>
+  
+          <tbody>
+            <tr>
+              <td class="indigo-text-darken-4 center-align"><h5>PUMP</h5></td>
+              <td>
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" width="40px" height="40px" xml:space="preserve"><desc>Copyright Opto 22</desc> <
+                  <g>
+                  <g id="shape">
+                    <path  fill="#C2AC8A" d="M50,99.5C22.706,99.5,0.5,77.294,0.5,50C0.5,22.706,22.706,0.5,50,0.5c27.294,0,49.5,22.206,49.5,49.5
+                      C99.5,77.294,77.294,99.5,50,99.5z"></path>
+                  </g>
+                  <g id="linear">
+                    <linearGradient class="linear" id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="50" y1="1" x2="50" y2="98">
+                      <stop offset="0" style="stop-color:#4F4F4F"></stop>
+                      <stop offset="1" style="stop-color:#000000"></stop>
+                    </linearGradient>
+                    <circle fill="url(#SVGID_1_)" cx="50" cy="50" r="49"></circle>
+                  </g>
+                  <g id="shadow">
+                    <path fill="#0D0D0D" d="M50,96.75c-19.312,0-36.029-10.396-44.187-25.548C13.718,87.647,30.533,99,50,99
+                      c19.467,0,36.282-11.353,44.187-27.798C86.029,86.354,69.311,96.75,50,96.75z"></path>
+                  </g>
+                  <g id="hlight">
+                    <path fill="#C2AC8A" d="M50,91.168C27.3,91.168,8.832,72.7,8.832,50S27.3,8.832,50,8.832S91.168,27.3,91.168,50
+                      S72.7,91.168,50,91.168z"></path>
+                  </g>
+                  
+                  <g id="radial">
+                    <radialGradient class="radial" id="SVGID_2_" cx="50" cy="50" r="40.9275" gradientUnits="userSpaceOnUse">
+                      <stop offset="0" style="stop-color:#4F4F4F"></stop>
+                      <stop offset="1" style="stop-color:#0D0D0D"></stop>
+                    </radialGradient>
+                    <circle id="pumpColour" class="radial" fill="#d11717" cx="50" cy="50" r="40.108"></circle>
+                  </g>
+                  
+                  <g id="light">
+                    <path fill="#808080" d="M50,3.75c20.845,0,38.669,12.11,45.965,29.245C89.052,14.316,71.082,1,50,1
+                      C28.917,1,10.947,14.317,4.035,32.997C11.33,15.861,29.154,3.75,50,3.75z"></path>
+                  </g>
+                  
+                </g></svg></svg>
+              </td>
+              <td>
+                <h5 id="PumpCurrentState" class="indigo-text-darken-4 center-align">OFF</h5>
+              </td>
+            </tr>
+           <tr>
+              <td class="indigo-text-darken-4 center-align"><h5>VENTILATOR</h5></td>
+              <td>
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" width="40px" height="40px" xml:space="preserve"><desc>Copyright Opto 22</desc> <
+                  <g>
+                  <g id="shape">
+                    <path  fill="#C2AC8A" d="M50,99.5C22.706,99.5,0.5,77.294,0.5,50C0.5,22.706,22.706,0.5,50,0.5c27.294,0,49.5,22.206,49.5,49.5
+                      C99.5,77.294,77.294,99.5,50,99.5z"></path>
+                  </g>
+                  <g id="linear">
+                    <linearGradient class="linear" id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="50" y1="1" x2="50" y2="98">
+                      <stop offset="0" style="stop-color:#4F4F4F"></stop>
+                      <stop offset="1" style="stop-color:#000000"></stop>
+                    </linearGradient>
+                    <circle fill="url(#SVGID_1_)" cx="50" cy="50" r="49"></circle>
+                  </g>
+                  <g id="shadow">
+                    <path fill="#0D0D0D" d="M50,96.75c-19.312,0-36.029-10.396-44.187-25.548C13.718,87.647,30.533,99,50,99
+                      c19.467,0,36.282-11.353,44.187-27.798C86.029,86.354,69.311,96.75,50,96.75z"></path>
+                  </g>
+                  <g id="hlight">
+                    <path fill="#C2AC8A" d="M50,91.168C27.3,91.168,8.832,72.7,8.832,50S27.3,8.832,50,8.832S91.168,27.3,91.168,50
+                      S72.7,91.168,50,91.168z"></path>
+                  </g>
+                  
+                  <g id="radial">
+                    <radialGradient class="radial" id="SVGID_2_" cx="50" cy="50" r="40.9275" gradientUnits="userSpaceOnUse">
+                      <stop offset="0" style="stop-color:#4F4F4F"></stop>
+                      <stop offset="1" style="stop-color:#0D0D0D"></stop>
+                    </radialGradient>
+                    <circle id="ventilatorColour" class="radial" fill="#d11717" cx="50" cy="50" r="40.108"></circle>
+                  </g>
+                  
+                  <g id="light">
+                    <path fill="#808080" d="M50,3.75c20.845,0,38.669,12.11,45.965,29.245C89.052,14.316,71.082,1,50,1
+                      C28.917,1,10.947,14.317,4.035,32.997C11.33,15.861,29.154,3.75,50,3.75z"></path>
+                  </g>
+                  
+                </g></svg></svg>
+              </td>
+              <td>
+                <h5 id="VentilatorCurrentState" class="indigo-text-darken-4 center-align">OFF</h5>
+              </td>
+            </tr>
+            <tr>
+              <td class="indigo-text-darken-4 center-align"><h5>HUMIDIFIER</h5></td>
+              <td>
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" width="40px" height="40px" xml:space="preserve"><desc>Copyright Opto 22</desc> <
+                  <g>
+                  <g id="shape">
+                    <path  fill="#C2AC8A" d="M50,99.5C22.706,99.5,0.5,77.294,0.5,50C0.5,22.706,22.706,0.5,50,0.5c27.294,0,49.5,22.206,49.5,49.5
+                      C99.5,77.294,77.294,99.5,50,99.5z"></path>
+                  </g>
+                  <g id="linear">
+                    <linearGradient class="linear" id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="50" y1="1" x2="50" y2="98">
+                      <stop offset="0" style="stop-color:#4F4F4F"></stop>
+                      <stop offset="1" style="stop-color:#000000"></stop>
+                    </linearGradient>
+                    <circle fill="url(#SVGID_1_)" cx="50" cy="50" r="49"></circle>
+                  </g>
+                  <g id="shadow">
+                    <path fill="#0D0D0D" d="M50,96.75c-19.312,0-36.029-10.396-44.187-25.548C13.718,87.647,30.533,99,50,99
+                      c19.467,0,36.282-11.353,44.187-27.798C86.029,86.354,69.311,96.75,50,96.75z"></path>
+                  </g>
+                  <g id="hlight">
+                    <path fill="#C2AC8A" d="M50,91.168C27.3,91.168,8.832,72.7,8.832,50S27.3,8.832,50,8.832S91.168,27.3,91.168,50
+                      S72.7,91.168,50,91.168z"></path>
+                  </g>
+                  
+                  <g id="radial">
+                    <radialGradient class="radial" id="SVGID_2_" cx="50" cy="50" r="40.9275" gradientUnits="userSpaceOnUse">
+                      <stop offset="0" style="stop-color:#4F4F4F"></stop>
+                      <stop offset="1" style="stop-color:#0D0D0D"></stop>
+                    </radialGradient>
+                    <circle id="humidifierColour" class="radial" fill="#d11717" cx="50" cy="50" r="40.108"></circle>
+                  </g>
+                  
+                  <g id="light">
+                    <path fill="#808080" d="M50,3.75c20.845,0,38.669,12.11,45.965,29.245C89.052,14.316,71.082,1,50,1
+                      C28.917,1,10.947,14.317,4.035,32.997C11.33,15.861,29.154,3.75,50,3.75z"></path>
+                  </g>
+                  
+                </g></svg></svg>
+              </td>
+              <td>
+                <h5 id="HumidifierCurrentState" class="indigo-text-darken-4 center-align">OFF</h5>
+              </td>
+            </tr>
+            <tr>
+              <td class="indigo-text-darken-4 center-align"><h5>LIGHTS</h5></td>
+              <td>
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" width="40px" height="40px" xml:space="preserve"><desc>Copyright Opto 22</desc> <
+                  <g>
+                  <g id="shape">
+                    <path  fill="#C2AC8A" d="M50,99.5C22.706,99.5,0.5,77.294,0.5,50C0.5,22.706,22.706,0.5,50,0.5c27.294,0,49.5,22.206,49.5,49.5
+                      C99.5,77.294,77.294,99.5,50,99.5z"></path>
+                  </g>
+                  <g id="linear">
+                    <linearGradient class="linear" id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="50" y1="1" x2="50" y2="98">
+                      <stop offset="0" style="stop-color:#4F4F4F"></stop>
+                      <stop offset="1" style="stop-color:#000000"></stop>
+                    </linearGradient>
+                    <circle fill="url(#SVGID_1_)" cx="50" cy="50" r="49"></circle>
+                  </g>
+                  <g id="shadow">
+                    <path fill="#0D0D0D" d="M50,96.75c-19.312,0-36.029-10.396-44.187-25.548C13.718,87.647,30.533,99,50,99
+                      c19.467,0,36.282-11.353,44.187-27.798C86.029,86.354,69.311,96.75,50,96.75z"></path>
+                  </g>
+                  <g id="hlight">
+                    <path fill="#C2AC8A" d="M50,91.168C27.3,91.168,8.832,72.7,8.832,50S27.3,8.832,50,8.832S91.168,27.3,91.168,50
+                      S72.7,91.168,50,91.168z"></path>
+                  </g>
+                  
+                  <g id="radial">
+                    <radialGradient class="radial" id="SVGID_2_" cx="50" cy="50" r="40.9275" gradientUnits="userSpaceOnUse">
+                      <stop offset="0" style="stop-color:#4F4F4F"></stop>
+                      <stop offset="1" style="stop-color:#0D0D0D"></stop>
+                    </radialGradient>
+                    <circle id="lightsColour" class="radial" fill="#d11717" cx="50" cy="50" r="40.108"></circle>
+                  </g>
+                  
+                  <g id="light">
+                    <path fill="#808080" d="M50,3.75c20.845,0,38.669,12.11,45.965,29.245C89.052,14.316,71.082,1,50,1
+                      C28.917,1,10.947,14.317,4.035,32.997C11.33,15.861,29.154,3.75,50,3.75z"></path>
+                  </g>
+                  
+                </g></svg></svg>
+              </td>
+              <td>
+                <h5 id="LightsCurrentState" class="indigo-text-darken-4 center-align">OFF</h5>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+  
+        </div>
+          <div class="col s12 l6" id="alarms">
+          
+      <table class=" centered highlight striped" >
+        <div>
+          <h2 class="white-text z-depth-3 grey darken-3 center-align rounded">Alarms</h2>
+        </div>
+        <thead>
+          <tr class="indigo-text-darken-4">
+              <th><h4>Sensors</h4></th>
+              <th><h4>Status</h4></th>
+              <th><h4>--</h4></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          
+            <tr>
+              <td class="indigo-text-darken-4"><h5>GAS ALERT</h5></td>
+              <td>
+                <svg id="GasAlertColour" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" width="48px" height="48px"><path d="M0 0h24v24H0z" fill="none"/><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+              </td>
+              <td>
+                <h5 id="GasAlertCurrentState" class="indigo-text-darken-4 ">OK</h5>
+              </td>
+            </tr>
+        
+            <td class="indigo-text-darken-4"><h5>WATER LEVEL</h5></td>
+            <td>
+              <svg id="WaterLevelColour" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" width="48px" height="48px"><path d="M0 0h24v24H0z" fill="none"/><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+            </td>
+            <td>
+              <h5 id="WaterLevelCurrentState" class="indigo-text-darken-4 ">OK</h5>
+            </td>
+          </tr>
+      
+        </tbody>
+      </table>
+          </div>
+        </div>
+</section>
+
+<section class="container z-depth-0 grey lighten-4 centered" id="controls">
+  <div class="row" style="font-family:Times" >
+    <div class="col s12 l6 ">
+      <ul class="collection with-header centered highlight">
+        <li class="collection-header center-align"><h4>CONTROLS</h4></li>
+        <li class="collection-item"><div>Pump<a href="#!" class="secondary-content">
+           <!-- Switch -->
+  <div class="switch" id="PumpSwitch">
+    <label>
+      Off
+      <input type="checkbox">
+      <span class="lever"></span>
+      On
+    </label>
+  </div>
+        </a></div></li>
+        <li class="collection-item"><div>Ventilator<a href="#!" class="secondary-content">
+          <div class="switch" id="VentilatorSwitch">
+            <label>
+              Off
+              <input type="checkbox">
+              <span class="lever"></span>
+              On
+            </label>
+          </div>
+        </a></div></li>
+        <li class="collection-item"><div>Humidifier<a href="#!" class="secondary-content">
+          <div class="switch" id="HumidifierSwitch">
+            <label>
+              Off
+              <input type="checkbox">
+              <span class="lever"></span>
+              On
+            </label>
+          </div>
+        </a></div></li>
+        <li class="collection-item"><div>Lights<a href="#!" class="secondary-content"> 
+          <div class="switch" id="LightsSwitch">
+          <label>
+            Off
+            <input type="checkbox">
+            <span class="lever"></span>
+            On
+          </label>
+        </div></a></div></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</section>
+ <!-- footer -->
+ <footer class="page-footer grey darken-3">
+  <div class="container">
+      <div class="row">
+          <div class="col s12 l6">
+              <h5>About me</h5>
+              <p>Industrial engineering student at Carlos III University. Passion for technology, especially electronics, programming and the world of IoT!</p>
+              <ul><a href="#" class="grey-text text-lighten-3 tooltipped btn-floating btn-small teal lighten-4">
+                <i class="material-icons prefix">location_on</i></a> Madrid, Spain</ul>
+          </div>
+          <div class="col s12 l4 offset-l12">
+              <h5>Connect</h5>
+              <ul><a href="https://www.facebook.com/alber.gomez.984" class="grey-text text-lighten-3 tooltipped btn-floating btn-small teal lighten-4" data-tooltip="Sigueme en mi Facebook!">
+                <i class="fab fa-facebook"></i></a> Facebook</ul>
+              <ul><a href="https://twitter.com/albertitogz_98" class="grey-text text-lighten-3 tooltipped btn-floating btn-small teal lighten-4" data-tooltip="Sigueme en mi Twitter!">
+                <i class="fab fa-twitter"></i></a> Twitter</ul>
+              <ul><a href="https://www.linkedin.com/in/alberto-gomez-zueco-995538179/" class="grey-text text-lighten-3 tooltipped btn-floating btn-small teal lighten-4" data-tooltip="Sigueme en mi Linkedin!">
+                <i class="fab fa-linkedin"></i></a> Linkedin</ul>
+              <ul><a href="https://www.instagram.com/alber_gz/?hl=es" class="grey-text text-lighten-3 tooltipped btn-floating btn-small teal lighten-4" data-tooltip="Sigueme en mi Instagram!">
+                <i class="fab fa-instagram"></i></a> Instagram</ul>
+              
+          </div>
+      </div>
+  </div>
+  <div class="footer-copyright grey darken-4">
+      <div class="container center-align" >&copy; 2020 Alberto Gómez</div>
+  </div>
+</footer>
+
+
+
+  
+  
+
+
+  <script>
+    const firebaseConfig = {
+  apiKey: "AIzaSyBozdvYwvdTmxjRTcBaqqUeYyoac0I9_ho",
+  authDomain: "semillero-35a36.firebaseapp.com",
+  databaseURL: "https://semillero-35a36.firebaseio.com", 
+  projectId: "semillero-35a36",
+  storageBucket: "semillero-35a36.appspot.com",
+  messagingSenderId: "498001366892",
+  appId: "1:498001366892:web:f3a2de21593e795a03ad49",
+  measurementId: "G-QQT4LNH8E3"
+};
+firebase.initializeApp(firebaseConfig);
+
+//make auth and firestore references
+const auth=firebase.auth();
+const database = firebase.database();
+var storage = firebase.storage();
+var db = firebase.firestore();
+const functions= firebase.functions();
+//update firestore settings
+
+</script>
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js"></script>
+  <script src="scripts/index.js"></script>
+  <script src="scripts/auth.js"></script>
+  <script src="scripts/script.js"></script>
+  <script src="scripts/contact.js"></script>
+  <script src="scripts/changecolours.js"></script>
+ 
+
+  <script>
+    $(document).ready(function(){
+$('.sidenav').sidenav();
+$('.materialboxed').materialbox(); // HAce que aumenta la foto
+$('.parallax').parallax();
+$('.tabs').tabs();
+$('.datepicker').datepicker({
+  disableWeekends: true
+});
+$('.dropdown-trigger').dropdown({
+      inDuration: 500,
+      outDuration:1000,
+      hover:true,
+      gutter:20,
+      belowOrigin:true,
+      aligment:'center',
+      stopPropagation: false
+      }
+);
+$('.tooltipped').tooltip();
+$('.scrollspy').scrollSpy();
+$('.modal').modal();
+
+    $('.slider').slider({
+indicators:	false,
+duration:	500,
+interval:	3000
+  });
+    });
+    $("#PumpSwitch").find("input[type=checkbox]").on("change",function() {
+        var status = $(this).prop('checked');
+        if(status==true){
+    firebase.database().ref('actuators/').update({
+        pump: 'H'
+      });
+}else{
+    firebase.database().ref('actuators/').update({
+        pump: 'L'
+      });
+};
+    });
+    $("#VentilatorSwitch").find("input[type=checkbox]").on("change",function() {
+        var status = $(this).prop('checked');
+        if(status==true){
+    firebase.database().ref('actuators/').update({
+        ventilator: 'H'
+      });
+}else{
+    firebase.database().ref('actuators/').update({
+        ventilator: 'L'
+      });
+};
+    });
+
+    $("#LightsSwitch").find("input[type=checkbox]").on("change",function() {
+        var status = $(this).prop('checked');
+        if(status==true){
+    firebase.database().ref('actuators/').update({
+        lights: 'H'
+      });
+}else{
+    firebase.database().ref('actuators/').update({
+        lights: 'L'
+      });
+};
+    });
+    $("#HumidifierSwitch").find("input[type=checkbox]").on("change",function() {
+        var status = $(this).prop('checked');
+        if(status==true){
+    firebase.database().ref('actuators/').update({
+        humidifier: 'H'
+      });
+}else{
+    firebase.database().ref('actuators/').update({
+       humidifier: 'L'
+      });
+};
+    });
+  </script>
+</body>
+</html>
