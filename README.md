@@ -58,13 +58,13 @@ Thanks to the Open Source environment and platforms of Arduino and Raspberry Pi 
 
 ## Website
 <p align="center">
- <img src="public/img/photos/web1.jpg">
+ <img src="photos/web1.jpg">
 </p>
 <p align="center">
- <img src="public/img/photos/web2.jpg">
+ <img src="photos/web2.jpg">
 </p>
 <p align="center">
-<img src="public/img/photos/web3.jpg">
+<img src="photos/web3.jpg">
 </p>
 
 
