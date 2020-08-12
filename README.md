@@ -27,7 +27,7 @@ The project has been carried out in a self-taught way thanks to the material pro
  <img src="photos/description.jpg" >
 </p>
  [See The complete bachelor thesis:](-------)
-  [See The complete electrical conections:](photos/sinPTC.jpg)
+  [See The complete electrical conections:](https://github.com/albertito1998/SeedbedwebsiteApp/blob/master/photos/sinPTC.png)
 
 ## Programming
  * [C++](https://isocpp.org/) - Programming language.
