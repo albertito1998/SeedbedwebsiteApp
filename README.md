@@ -3,6 +3,7 @@
 
 - [Description](#description)
 - [Website App](#website)
+- [Instalation](#instalation)
 - [About me](#about)
 - [Support](#support)
 - [License](#license)
@@ -26,6 +27,7 @@ The project has been carried out in a self-taught way thanks to the material pro
  <img src="photos/description.jpg" >
 </p>
  [See The complete bachelor thesis:](-------)
+  [See The complete electrical conections:](photos/sinPTC.jpg)
 
 ## Programming
  * [C++](https://isocpp.org/) - Programming language.
@@ -70,9 +72,24 @@ Thanks to the Open Source environment and platforms of Arduino and Raspberry Pi 
 [Go to the website!! ](https://semillero-35a36.web.app/)
 
 
-## Clone
+## Instalation
 
-- Clone this repo to your local machine using `https://github.com/albertito1998/SeedbedAndroidApp`
+- *Clone* this repo to your local machine using `https://github.com/albertito1998/SeedbedAndroidApp`
+
+Go to the folder ` ... SeedbedwebsiteApp/firebase-process/` and execute the following comands in cmd:
+```comands
+// code away!
+npm install -g
+npm update -g
+```
+Compile and upload the code in Arduino with the file `Arduino.ino`
+
+Start running the process in the Raspberry Pi:
+
+```comands
+// code away!
+node  ... SeedbedwebsiteApp/firebase-process // The corresponding path in your computer
+```
 
 ## About 
 
