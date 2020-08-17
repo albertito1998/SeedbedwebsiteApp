@@ -1,5 +1,5 @@
     /**
-     * Define the listeners (for temperature and humidity)
+     * Define the listeners for the sensors
      */
     const listeners = {
         temperature: [],
@@ -12,9 +12,8 @@
       /**
        * The subscribe function takes two arguments, the
        callback function, and the type.
-       * It pushes the provided listener to our array of 
-       listeners (either the temperature listener array, or the  
-       humidity listener array, depending on the "type" 
+       * It pushes the provided listener to the array of 
+       listeners (depending on the "type" of sensor
        provided)
        */
       const subscribe = (listener, type) => {
@@ -22,7 +21,7 @@
       }
   
       /**
-       * If we wish to remove a listener from our list, we call   
+       * To remove a listener from our list, we call   
           the unsubscribe function.
        * This accepts the exact same types of arguments as the 
        subscribe function
