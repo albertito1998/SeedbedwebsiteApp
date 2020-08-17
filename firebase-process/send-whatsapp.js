@@ -1,8 +1,13 @@
-
+// REquire the libraries
 require('dotenv').config();
+
+// Import the tokens for sending the whtasapp
 const accountSid=process.env.accountSid;
 const authToken=process.env.authToken;
 const client =require ('twilio')(accountSid,authToken);
+
+
+// Create the message and send it
 function sendmessage(){
 client.messages.create({
 from: 'whatsapp:'+15186502349,
@@ -16,6 +21,5 @@ mediaUrl: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fcommons.wikimedia.o
 });
 }
 
-sendmessage();
-
+// Export the function
 module.exports.sendmessage=sendmessage();
