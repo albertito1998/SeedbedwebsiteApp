@@ -1,12 +1,22 @@
+/**
+*IMPORT THE LIBRARIES
+ */
+
 const express = require('express')
 const path = require('path')
 const app = express()
 const getCachedSensorReadings = require('./get-cached-sensor-readings')
 const databaseOperations = require('./database-operations')
 
-
+/**
+*Run the files in the folder /public
+ */
 app.use('/public', express.static(path.join(__dirname, 'public')))
 
+
+/**
+*CREATE THE ROUTES
+ */
 
 app.get('/temperature', function (req, res) {
   res.json({
@@ -200,9 +210,9 @@ app.get('/LDR/average', function (req, res) {
 })
 
 /**
- * Import the external dependencies required, for us this is:
+ * Import the external dependencies required, this is:
  * 1. The native http module
- * 2. The socket.io module that we installed
+ * 2. The socket.io module installed
  * 3. THe subscribe and unsibscribe functions from the notifier module
  */
 const http = require('http')
@@ -210,24 +220,24 @@ const socketIo = require('socket.io')
 const {subscribe, unsubscribe} = require('./notifier')
 
 /**
- * Create a new HTTP server that wraps the "app" object that defined our server
+ * Create a new HTTP server that wraps the "app" object that defined the server
  */
 const httpServer = http.Server(app)
 
 /**
- * Socket.io implements its own routes on top of the existing ones by wrapping our HTTP server
+ * Socket.io implements its own routes on top of the existing ones by wrapping the HTTP server
  */
 const io = socketIo(httpServer)
 
 io.on('connection', socket => {
   /**
-   * This callback is called everytime a new client successfully makes a websocket connection with our server
+   * This callback is called everytime a new client successfully makes a websocket connection with the server
    */
   console.log(`User connected [${socket.id}]`)
 
   /**
    * The event listeners are defined inside the callback function because we need to access the "socket" instance, to emit changes to the client
-   * The "pushTemperature" and "pushHumidity" listeners are called on change of temperature and humidity respectively.
+   * The "push****" listeners are called on change of a sensor respectively.
    */
   const pushTemperature = newTemperature => {
     socket.emit('new-temperature', {
@@ -257,7 +267,7 @@ io.on('connection', socket => {
   }
 
   /**
-   * Subscribe the listeners that we just defined to the "temperature" and "humidity" events
+   * Subscribe the listeners to the sensors events
    */
   subscribe(pushTemperature, 'temperature')
   subscribe(pushHumidity, 'humidity')
@@ -278,11 +288,14 @@ io.on('connection', socket => {
 })
 
 /**
- * The httpsServer.listen method is called. This exposes the routes we defined for the "app" instance as well
+ * The httpsServer.listen method is called. This exposes the routes  defined for the "app" instance as well
  */
 httpServer.listen(3000, function () {
   console.log('Server listening on port 3000')
 })
+
+
+
 
 
 
