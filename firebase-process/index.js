@@ -3,22 +3,18 @@
  */
 const getSensorReadings = require('./get-sensor-readings')
 var admin = require('firebase-admin')
-//const getCaptures = require('./send-whatsapp.js')
+
 
 
 /**
  * Read the JSON key that was downloaded from firebase, in this case, it has
- * been placed in the "/home/pi" directory, and named "firebase-key.json"
- * You can change this to the location where your key is.
- *
- * Remember, this key should not be accessible by the public, and so should not
- * be kept inside the repository
+ * been placed in this directory, and named "firebase-key.json"
+ *However, I deleted this file here because of condfidential data and security
  */
 const serviceAccount = require('./firebase-key.json') //CAMBIAR
 
 /**
  * The firebase admin SDK is initialized with the key and the project URL
- * Change the "databaseURL" to match that of your application.
  * Once the admin object is initialized, it will have access to all the
  * functionality that firebase provides, and can now write to the database
  */
@@ -30,9 +26,7 @@ admin.initializeApp({
 
 
 /**
- * Initialize the database, and create refs for the temperature
- * and humidity keys on our database. This is very similar to the refs we
- * created on the client side.
+ * Initialize the database, and create refs for all the datas keys on our database.
  */
 const db = admin.database()
 var bucket = admin.storage().bucket();
@@ -51,9 +45,9 @@ const ventilatorCurrentStateRef = db.ref('ventilatorCurrentState')
 const humidifierCurrentStateRef = db.ref('humidifierCurrentState')
 const waterLevelRef = db.ref('waterLevel')
 const gasAlertRef = db.ref('gasAlert')
-const Listener = db.ref('actuators')
+//const Listener = db.ref('actuators')
 
-/*function uploadsensors(){
+function uploadsensorsFirestore(){
   let data = {
     temperature: getSensorReadings.getTemperature(),
     humidityRef: getSensorReadings.getHumidity(),
@@ -68,13 +62,13 @@ const Listener = db.ref('actuators')
     GASALERT: getSensorReadings.getGasAlert(),
     timestamp: admin.firestore.FieldValue.serverTimestamp(),
   };
-  let addDoc = sensores.collection('sensors').add(data).then(ref => {
-    console.log('Added document with ID: ', ref.id);
+   sensores.collection('sensors').add(data).then(ref => {
+    console.log('Added document to Firestore with ID: ', ref.id);
   });
-}; */
+};
 
 
-const cache = {
+/*const cache = {
   ArduinoPump: 0,
   ArduinoVentilator: 0,
   ArduinoLights: 0,
@@ -95,16 +89,10 @@ Listener.on('value', function(snapshot) {
     });
   });
 })
-
+*/
 /**
  * Create a task that runs after a fixed interval of time
- *
- * Here, we have set the interval to be slightly longer than it was
- * before. This is to account for the delay that may occur in the network,
- * since we are not running the databas eon the local machine anymore.
- * If you find that the application is not communicating with firebase
- * as fast as you would like, try increasing this interval based on your
- * network speed.
+ * FOR REALTIME
  */
 setInterval(() => {
   
@@ -119,14 +107,20 @@ setInterval(() => {
     humidifierCurrentStateRef.set(getSensorReadings.getHumidifierState())
     waterLevelRef.set(getSensorReadings.getWaterLevel())
     gasAlertRef.set(getSensorReadings.getGasAlert())
-   // if(getSensorReadings.getPumpState()== 'H'){
-    //  getCaptures.sendmessage(); 
-    //}
-  /*  bucket.upload('/home/pi/book/output/semillero.jpg', { destination: "semillero.jpg" }, (err, file) => {
+    bucket.upload('/home/pi/webcam/photos/$DATE.jpg', { destination: "semillero.jpg" }, (err, file) => {
       if (err) {
          return console.error(err); }
-      }) */
-   // uploadsensors();
+      }) 
+   uploadsensorsFirestore();
       
-}, 5000) //108000000
+}, 5000) 
+
+/**
+ * FOR FIRESTORE EVERY HOUR
+ */
+setInterval(() => { 
+ uploadsensorsFirestore();
+    
+},3600000)
+
 
