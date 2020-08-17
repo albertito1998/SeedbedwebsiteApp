@@ -1,14 +1,22 @@
+// THIS FILE CONTAINS THE CODE TO GET THE READINGS FROM THE ARDUINO UNO VIA SERIAL COMUNICATION
+ 
+//Import the libraries
 const Serialport = require('serialport');
+const sendWhatsapp = require('./send-whatsapp.js')
 const Readline= Serialport.parsers.Readline;
-const port = new Serialport('COM3',{
+
+//Initialitation of the serial comunication
+const port = new Serialport('/dev/ttyACM0',{
     baudRate: 9600
 });
 const parser = port.pipe (new Readline({ delimeter: '\r\n', encoding : 'utf8' }));
 
-
+//Function that is triggered when the serial comunication is opened
 parser.on('open', function() {
   console.log('connection is opened');
 });
+
+// create a variable to store the data
 const cache = {
   temperature: 0,
   humidityair: 0,
@@ -24,6 +32,7 @@ const cache = {
 }
 
 
+//Function that is triggered when a data is sent
 parser.on('data', function(data){
       // Split the numbers based on a comma delimeter into an array 
   const values = data .  split ( ',' ) ; 
@@ -43,7 +52,7 @@ parser.on('data', function(data){
         cache.humidifier= values [ 8 ] ;
         cache.gasAlert= values [ 9 ] ;
         cache.waterLevel= values [ 10 ] ;
-  // Do something... 
+  // Display the values in the console... 
   console .  log ( `AIR: ${ cache.humidityair } , TEMPERATURE: ${ cache.temperature }, GROUND: ${ cache.humidityground  } , LDR: ${ cache.LDR } , CO2: ${ cache.Co2 }, PUMP: ${ cache.pump },
   VENTILATOR: ${ cache.ventilator },LIGHTS: ${ cache.lights },HUMIDIFIER: ${ cache.humidifier },GAS: ${ cache.gasAlert},WATERLEVEL: ${ cache.waterLevel }` ) ; 
   } 
@@ -55,11 +64,18 @@ parser.on('data', function(data){
    
 });
 
+//Function that is triggered when an error is happened
 parser.on('error', function(err){
   console.log('err');
 });
 
+//Function that is triggered when the pump is on
+if(cache.pump=='H'){
+sendWhatsapp.sendmessage();
+}
 
+
+// Export the functions to another part of the programm
 module.exports.getTemperature = () => cache.temperature
 module.exports.getHumidity = () => cache.humidityair
 module.exports.getHumidityground = () => cache.humidityground
@@ -72,3 +88,4 @@ module.exports.getHumidifierState = () => cache.humidifier
 module.exports.getGasAlert = () => cache.gasAlert
 module.exports.getWaterLevel = () => cache.waterLevel
 module.exports.getPort = () => port
+
