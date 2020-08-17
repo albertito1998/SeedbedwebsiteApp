@@ -9,9 +9,9 @@ body{
 }
 
 /*
-We use flexbox for our layout structure.
+Use flexbox for the layout structure.
 Flexbox is a feature introduced in CSS3 to make it simpler to align
-and size elements in a layout. It also makes your layout more predictable
+and size elements in a layout. It also makes the layout more predictable
 when accomodating different screen sizes.
 */
 .container {
@@ -21,14 +21,13 @@ when accomodating different screen sizes.
 }
 
 /*
-Assign a width to the containers. Since we have two containers,
-and we want there to be space in between, we need to make each of them
+Assign a width to the containers. Since there are two containers,
+and  there must be space in between,  each of them
 lesser than 50% of the total width, which is why 40% is assigned.
 
 The top and bottom margin is set at 20px, while the left and right margins are
 set to auto, so that both containers will center themselves.
-
-We also want the text inside these containers to align itself centrally
+ Also, the text inside these containers to align itself centrally
 */
 .container > div {
   width: 40%;
@@ -36,14 +35,14 @@ We also want the text inside these containers to align itself centrally
   text-align: center;
   /*
   To give the display a natural rounded shape, and to give it the appearence of
-  "popping out", we have assigned a border radius and box shadow CSS property
+  "popping out",  a border radius and box shadow CSS property is assigned
   */
   border-radius: 10px;
   box-shadow:0px 0px 3px -1px rgba(100,100,100,0.75);  
 }
 
 /*
-We choose some light colors as the background colors of our displays
+Some light colors as the background colors of our displays are chosen
 */
 .temperature{
   background-color: #c5cae9
@@ -64,7 +63,7 @@ We choose some light colors as the background colors of our displays
 }
 
 /*
-We want our title to have a large size, and our value to have the largest
+the title have a large size, and the value to have the largest
 size
 */
 .container .title {
@@ -267,5 +266,6 @@ footer{
       margin-top: 40px;
   }
 }
+
 
 
