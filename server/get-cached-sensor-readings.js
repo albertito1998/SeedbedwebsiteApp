@@ -1,3 +1,7 @@
+/**
+*THIS FILE IS IDENTICAL WITH THE FILE IN FIREBASE PROCESS. CHECK IT TO READ THE CODE WITH PROPER COMMENTS
+ */
+
 const Serialport = require('serialport');
 const Readline= Serialport.parsers.Readline;
 const databaseOperations = require('./database-operations')
@@ -57,7 +61,7 @@ parser.on('data', function(data){
         cache.Co2 = values [ 3 ] ; 
         cache.LDR= values [ 4 ] ; 
 
-  // Do something... 
+  // Display... 
   console .  log ( `HUMEDADAIRE: ${ cache.humidityair } , TEMPERATURA: ${ cache.temperature }, HUMEDADSUELO: ${ cache.humidityground  } , LDR: ${ cache.LDR } , CO2: ${ cache.Co2 }` ) ; 
   } 
   else 
