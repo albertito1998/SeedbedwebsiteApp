@@ -81,6 +81,14 @@ Thanks to the Open Source environment and platforms of Arduino and Raspberry Pi 
 Go to the folder ` ... SeedbedwebsiteApp/firebase-process/` and execute the following comands in cmd:
 ```comands
 // code away!
+// Install node npm and pm2
+curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -npm 
+install node
+install npm
+install -g pm2
+
+// install the dependencies in the package.json file
+
 npm install -g
 npm update -g
 ```
@@ -91,6 +99,8 @@ Start running the process in the Raspberry Pi:
 ```comands
 // code away!
 node  ... SeedbedwebsiteApp/firebase-process // The corresponding path in your computer
+// or in the background
+pm2 start ... SeedbedwebsiteApp/firebase-process // The corresponding path in your computer
 ```
 
 ## About 
